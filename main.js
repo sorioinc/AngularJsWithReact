@@ -2,31 +2,25 @@ import angular from 'angular'
 // import reactDirective from './src/angular/reactDirective'
 
 const  app = angular.module('app', []);
-app.controller('TodoCtrl', function($scope) {
-  $scope.todos = [
-    {text:'learn angular', done:false},
-    {text:'build an angular app', done:false}];
+app.controller('FilipCtrl', function($scope) {
+  $scope.data = '';
 
-  $scope.addTodo = function() {
-    $scope.todos.push({text:$scope.todoText, done:false});
-    $scope.todoText = '';
-  };
-
-  $scope.remaining = function() {
-    var count = 0;
-    angular.forEach($scope.todos, function(todo) {
-      count += todo.done ? 0 : 1;
+  $scope.dataUpdater = function(data) {
+    $scope.safeApply(() => {
+      $scope.data = JSON.stringify(data);
     });
-    return count;
   };
 
-  $scope.markItemCompleted = function(todoText) {
-    var index = $scope.todos.findIndex((item,index)=> { return (item.text === todoText) })
-    console.log(index)
-    $scope.todos[index].done = !$scope.todos[index].done
-    $scope.$apply()
+  $scope.safeApply = function(fn) {
+    var phase = this.$root.$$phase;
+    if(phase == '$apply' || phase == '$digest') {
+      if(fn && (typeof(fn) === 'function')) {
+        fn();
+      }
+    } else {
+      this.$apply(fn);
+    }
   };
-
 })
 
 

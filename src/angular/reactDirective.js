@@ -1,28 +1,21 @@
 import app from '../../main'
 import React from "react";
 import ReactDOM from "react-dom";
-import Layout from "../react/Layout";
+import FormBuilder from "react-forms-builder"
 
 const reactDirective = app.directive('reactDirective', function() {
   return {
       template: '<div id="reactapp" class="react-part"></div>',
       scope: {
-        todos: '=',
-        markComplete:'&'
+        dataUpdater:'&updater'
       },
       link: function(scope, el, attrs){
-            scope.newItem = (value) => {alert (value)}
-            // scope.markComplete = (todoItem) => {scope.markItemCompleted(todoItem)}
-
+            
             const reactapp = document.getElementById('reactapp')
-            scope.$watch('todos', function(newValue, oldValue) {
-                if (angular.isDefined(newValue)) {
-                 ReactDOM.render(
-                    <Layout todos={newValue} newItem={scope.newItem} markComplete={scope.markComplete}/>
-                    , reactapp);
-                }
-            }, true);
-
+            const wrapper = (data) => scope.dataUpdater({ data });
+            ReactDOM.render(
+                <FormBuilder.ReactFormBuilder dataUpdater={wrapper} />
+                , reactapp);
         }
     }
 })

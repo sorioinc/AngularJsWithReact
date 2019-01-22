@@ -7,7 +7,8 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-
+    <link rel="stylesheet" href="/node_modules/react-forms-builder/lib/app.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <title>Angular 1.x with React</title>
   </head>
 
@@ -33,31 +34,23 @@
     </style>
     
     <div ng-app="app">
-        <div ng-controller="TodoCtrl">
+        <div ng-controller="FilipCtrl">
             <div class="angular-part">
-              <h1>Angular TO-DO</h1>
-              <span>{{remaining()}} of {{todos.length}} remaining</span>
-              <ul class="unstyled">
-              <li ng-repeat="todo in todos">
-                  <span class="done-{{todo.done}}">{{todo.text}}</span>
-              </li>
-              </ul>
-              <form ng-submit="addTodo()">
-              <input type="text" ng-model="todoText"  size="30"
-                      placeholder="add new todo here">
-              <input class="btn-primary" type="submit" value="add">
-              </form>
+              <h1>Angular Side</h1>
+              <h3>Generated data from React:</h3>
+              <div>{{data}}</div>
               <div>&nbsp;</div>
             </div>
             <div >  <!--ng-if={{todos}}-->
-              <react-directive  todos=todos mark-complete="markItemCompleted(text)"></react-directive>
+              <react-directive updater="dataUpdater(data)"></react-directive>
             </div>
             
         </div>
     </div>
 
     
-    
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="dist/bundle.min.js"></script>    
 
   </body>
